@@ -1,6 +1,6 @@
 import productService from '../services/productService.js';
 
-async function getProducts(req, res) {
+export async function getProducts(req, res) {
     try {
         const products = await productService.getAllProducts();
 
@@ -10,6 +10,4 @@ async function getProducts(req, res) {
     }
 }
 
-export default {
-    getProducts,
-};
+
