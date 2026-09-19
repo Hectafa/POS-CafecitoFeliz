@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import "../styles/home.css";
 
@@ -10,14 +11,7 @@ export default function Home() {
 
 
 const categories = [ "Todos", "Café", "Bebidas", "Alimentos", "Postres", ];
-const productsData = [ 
-    { id: 1, nombre: "Americano", precio: 35, categorie: "Café", }, 
-    { id: 2, nombre: "Cappuccino", precio: 48, categorie: "Café", }, 
-    { id: 3, nombre: "Latte", precio: 45, categorie: "Café", }, 
-    { id: 4, nombre: "Frappé", precio: 60, categorie: "Bebidas", }, 
-    { id: 5, nombre: "Croissant", precio: 42, categorie: "Alimentos", }, 
-    { id: 6, nombre: "Cheesecake", precio: 55, categorie: "Postres", }, 
-];
+
 
 useEffect(() => {
     let cancelled = false;
@@ -27,14 +21,10 @@ useEffect(() => {
             setLoading(true);
             setError(null);
 
-            const filteredProducts = selectedCategorie === "Todos"
-            ? productsData
-            : productsData.filter(
-                (producto) => producto.categorie === selectedCategorie
-            );
+            const response = await axios.get("http://localhost:3000/api/products");
 
             if (!cancelled)
-            setProducts(filteredProducts);
+                setProducts(response.data);
         } 
         catch (err) {
             if (!cancelled) setError("Error al cargar los productos");
@@ -50,7 +40,11 @@ useEffect(() => {
     return () => {
         cancelled = true;
     };
-}, [selectedCategorie]);
+}, []);
+
+const filteredProducts = selectedCategorie === "Todos"
+    ? products
+    : products.filter((product) => product.category === selectedCategorie);
 
 return (
     <div className="home-container">
@@ -71,28 +65,32 @@ return (
                 <h2>Productos</h2>
 
                 <div className="categories">
-                    {categories.map((categorie) => (
+                    {categories.map((category) => (
                         <button
-                            key={categorie}
+                            key={category}
                             className={
-                                selectedCategorie === categorie
+                                selectedCategorie === category
                                     ? "category-button selected"
                                     : "category-button"
                             }
-                            onClick={() => setSelectedCategorie(categorie)}
+                            onClick={() => setSelectedCategorie(category)}
                         >
-                            {categorie}
+                            {category}
                         </button>
                     ))}
                     </div>
 
                     <div className="products-grid">
-                        {products.map((products) => (
-                            <ProductCard 
-                            key={products.id}
-                            product={products}
-                            />
+                        {loading && <p>Cargando productos...</p>}
+                        {error && <p className="error">{error}</p>}
+
+                        {!loading && !error && filteredProducts.map((product) => (
+                            <ProductCard key={product._id} product={product} />
                         ))}
+
+                        {filteredProducts.length === 0 && !loading && !error && (
+                            <p>No se encontraron productos en esta categoría.</p>
+                        )}
                     </div>
                 </section>
             </main>
