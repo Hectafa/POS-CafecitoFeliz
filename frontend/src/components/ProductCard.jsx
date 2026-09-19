@@ -6,9 +6,9 @@ function ProductCard({ product }) {
             </div>
 
             <div className="product-details">
-                <h3>{product.nombre}</h3>
-                <p>{product.categorie}</p>
-                <p>${product.precio.toFixed(2)}</p>
+                <h3>{product.name}</h3>
+                <p>{product.category}</p>
+                <p>${product.price.toFixed(2)}</p>
             </div>
         </a>
     );
