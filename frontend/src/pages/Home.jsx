@@ -9,6 +9,7 @@ export default function Home() {
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("Todos");
     const [cart, setCart] = useState([]);
+    const [checkout, setCheckout] = useState(false);
 
 
 const categories = [ "Todos", "Café", "Bebidas", "Alimentos", "Postres", ];
@@ -27,8 +28,8 @@ useEffect(() => {
             if (!cancelled)
                 setProducts(response.data);
         } 
-        catch (err) {
-            if (!cancelled) setError("Error al cargar los productos");
+        catch (error) {
+            if (!cancelled) setError("Error al cargar los productos", error);
         } finally {
             if (!cancelled) {
                 setLoading(false);
@@ -66,8 +67,41 @@ const removeFromCart = (productId) => {
     setCart((prevCart) => prevCart.filter(item => item._id !== productId));
 };
 
-const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+const cartTotal = cart.reduce(
+    (total, item) => total + (item.price * item.quantity), 0
+);
 
+const handleCheckout = async () => {
+    if (cart.length === 0) {
+        return;
+    }
+
+    try {
+        setCheckout(true);
+
+        const orderData = {
+            items: cart.map((item) => ({
+                productId: item._id,
+                quantity: item.quantity,
+            })),
+        };
+
+        await axios.post(
+            "http://localhost:3000/api/orders",
+            orderData
+        );
+
+        alert('Orden creada correctamente');
+        setCart([]);
+    } catch (error) {
+        alert(
+            error.response?.data?.message ||
+            "Error al crear la orden"
+        );
+    } finally {
+        setCheckout(false);
+    }
+};
 
 return (
     <div className="home-container">
@@ -148,8 +182,10 @@ return (
                     <h3>Total: ${cartTotal.toFixed(2)}</h3>
                     <button
                         className="checkout-btn"
-                        disabled={cart.length === 0}
-                        onClick={() => alert("Checkout functionality not implemented yet.")}>
+                        disabled={cart.length === 0 || checkout}
+                        onClick={handleCheckout}
+                        >
+                            {checkout}
                             Cobrar
                     </button>
                 </div>

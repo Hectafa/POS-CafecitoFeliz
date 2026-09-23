@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.config.js";
 import productRoutes from "./src/routes/productRoutes.js";
+import orderRoutes from "./src/routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
 
 const PORT = process.env.PORT || 3000;
 
