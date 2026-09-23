@@ -1,0 +1,78 @@
+.ticket-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.ticket {
+  width: 360px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.ticket-header {
+  text-align: center;
+  border-bottom: 1px dashed #999;
+  padding-bottom: 15px;
+}
+
+.ticket-header h2 {
+  margin: 0;
+}
+
+.ticket-header p {
+  margin: 5px 0 0;
+}
+
+.ticket-info {
+  padding: 15px 0;
+  border-bottom: 1px dashed #999;
+}
+
+.ticket-info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.ticket-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-item p {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  padding: 18px 0;
+}
+
+.ticket-footer {
+  text-align: center;
+}
+
+.ticket-footer p {
+  margin-bottom: 15px;
+}
+
+.new-sale-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
