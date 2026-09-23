@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
+import Ticket from "../components/Ticket";
 import "../styles/home.css";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
     const [selectedCategory, setSelectedCategory] = useState("Todos");
     const [cart, setCart] = useState([]);
     const [checkout, setCheckout] = useState(false);
+    const [order, setOrder] = useState(null);
 
 
 const categories = [ "Todos", "Café", "Bebidas", "Alimentos", "Postres", ];
@@ -86,12 +88,12 @@ const handleCheckout = async () => {
             })),
         };
 
-        await axios.post(
+        const response = await axios.post(
             "http://localhost:3000/api/orders",
             orderData
         );
 
-        alert('Orden creada correctamente');
+        setOrder(response.data.order);
         setCart([]);
     } catch (error) {
         alert(
@@ -101,6 +103,10 @@ const handleCheckout = async () => {
     } finally {
         setCheckout(false);
     }
+};
+
+const handleNewSale = () => {
+    setOrder(null);
 };
 
 return (
@@ -189,6 +195,13 @@ return (
                             Cobrar
                     </button>
                 </div>
+
+                {order && (
+                    <Ticket
+                    order={order}
+                    newSale={handleNewSale}
+                    />
+                )}
             </aside>
         </div>
     );
