@@ -12,6 +12,7 @@ export default function Home() {
     const [cart, setCart] = useState([]);
     const [checkout, setCheckout] = useState(false);
     const [order, setOrder] = useState(null);
+    const [search, setSearch] = useState("");
 
 
 const categories = [ "Todos", "Café", "Bebidas", "Alimentos", "Postres", ];
@@ -46,9 +47,12 @@ useEffect(() => {
     };
 }, []);
 
-const filteredProducts = selectedCategory === "Todos"
-    ? products
-    : products.filter((product) => product.category === selectedCategory);
+const filteredProducts = products.filter((product) => {
+
+    const matchSearch = product.name.toLowerCase().includes(search.toLowerCase());
+
+    return matchSearch;
+});
 
 const addToCart = (product) => {
     setCart((prevCart) => {
@@ -126,6 +130,15 @@ return (
         <main className="main-content">
             <section className="products-section">
                 <h2>Productos</h2>
+                <div className="search-container">
+                    <input 
+                    type="text"
+                    placeholder="Buscar productos..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="search-input"
+                    />
+                </div>
 
                 <div className="categories">
                     {categories.map((category) => (
@@ -156,7 +169,7 @@ return (
                         ))}
 
                         {filteredProducts.length === 0 && !loading && !error && (
-                            <p>No se encontraron productos en esta categoría.</p>
+                            <p>No se encontraron productos</p>
                         )}
                     </div>
                 </section>
