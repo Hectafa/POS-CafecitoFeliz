@@ -1,0 +1,86 @@
+.clients-container {
+  padding: 30px;
+}
+
+.clients-container h1 {
+  margin-bottom: 25px;
+}
+
+.client-form-section {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 500px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.client-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.clients-error {
+  margin: 15px 0;
+}
+
+.clients-list-section {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.clients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.client-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.client-info h3 {
+  margin: 0 0 5px;
+}
+
+.client-info p {
+  margin: 0;
+}
+
+.delete-client-btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
