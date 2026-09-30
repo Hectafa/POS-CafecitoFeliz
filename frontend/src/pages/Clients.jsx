@@ -9,6 +9,7 @@ export default function Clients() {
     const [ loading, setLoading ] = useState(true);
     const [ saving, setSaving ] = useState(false);
     const [ error, setError ] = useState(null);
+    const [ search, setSearch ] = useState(""); 
 
 
     useEffect(() => {
@@ -27,6 +28,9 @@ export default function Clients() {
                 if (!cancelled) {
                     console.error("Error al cargar clientes:", error);
                     setError("No se pudieron cargar los clientes");
+                }
+            } finally {
+                if (!cancelled) {
                     setLoading(false);
                 }
             }
@@ -38,6 +42,15 @@ export default function Clients() {
             cancelled = true;
         };
     }, []);
+
+    const filteredClients = clients.filter((client) => {
+        const find = search.toLowerCase();
+
+        return (
+            String(client.name).toLowerCase().includes(find) ||
+            String(client.phone).includes(find)
+        );
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -169,13 +182,24 @@ export default function Clients() {
             <section className="clients-list-section">
                 <h2>Clientes registrados</h2>
 
+                <div className="client-search">
+                    <input 
+                        type="text" 
+                        placeholder="Busca por nombre o teléfono"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+
                 {loading ? (
                     <p>Cargando clientes...</p>
-                ) : clients.length === 0 ? (
-                    <p>No hay clientes registrados</p>
+                ) : filteredClients.length === 0 ? (
+                    <p>
+                        No hay clientes registrados
+                    </p>
                 ) : (
                     <div className="clients-list">
-                        {clients.map((client) => (
+                        {filteredClients.map((client) => (
                             <article
                                 key={client._id}
                                 className="client-card"
