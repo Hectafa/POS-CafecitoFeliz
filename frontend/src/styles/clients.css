@@ -6,6 +6,19 @@
   margin-bottom: 25px;
 }
 
+.client-search {
+  margin-bottom: 20px;
+}
+
+.client-search input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
 .client-form-section {
   background: white;
   padding: 25px;
