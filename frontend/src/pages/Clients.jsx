@@ -10,26 +10,33 @@ export default function Clients() {
     const [ saving, setSaving ] = useState(false);
     const [ error, setError ] = useState(null);
 
-    const loadClients = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-
-            const response = await axios.get(
-                "http://localhost:3000/api/clients"
-            );
-
-            setClients(response.data);
-        } catch (error) {
-            console.error("Error al cargar clientes:", error);
-            setError("No se pudieron cargar los clientes");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     useEffect(() => {
-        loadClients();
+        let cancelled = false;
+
+        const fetchClients = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3000/api/clients"
+                );
+
+                if (!cancelled) {
+                    setClients(response.data);
+                }
+            } catch (error) {
+                if (!cancelled) {
+                    console.error("Error al cargar clientes:", error);
+                    setError("No se pudieron cargar los clientes");
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchClients();
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     const handleSubmit = async (e) => {
