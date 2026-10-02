@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Ticket from "../components/Ticket";
 import "../styles/home.css";
