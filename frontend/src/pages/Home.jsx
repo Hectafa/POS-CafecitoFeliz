@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import ProductCard from "../components/ProductCard";
 import Ticket from "../components/Ticket";
 import "../styles/home.css";
@@ -26,7 +26,7 @@ useEffect(() => {
             setLoading(true);
             setError(null);
 
-            const response = await axios.get("http://localhost:3000/api/products");
+            const response = await api.get("/products");
 
             if (!cancelled)
                 setProducts(response.data);
