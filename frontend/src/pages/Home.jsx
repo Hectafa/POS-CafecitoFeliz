@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 import Ticket from "../components/Ticket";
 import "../styles/home.css";
 
-export default function Home() {
+export default function Home( {user} ) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -124,7 +124,7 @@ return (
 
             <div className="user-info">
                 <span>👤</span>
-                <span>Vendedor</span>
+                <span>{user.role}</span>
             </div>
         </header>
 
