@@ -24,31 +24,43 @@ export default function Products() {
         "Postres",
     ];
 
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-            setError("");
-
-            const response = await api.get("/products");
-
-            setProducts(response.data);
-        } catch (err) {
-            console.error(
-                "Error fetching products:",
-                err
-            );
-
-            setError(
-                err.response?.data?.message ||
-                "Ocurrió un error al cargar los productos."
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        fetchProducts();
+        let isMounted = true;
+
+        const loadProducts = async () => {
+            try {
+                setLoading(true);
+                setError("");
+
+                const response = await api.get("/products");
+
+                if (isMounted) {
+                    setProducts(response.data);
+                }
+            } catch (err) {
+                console.error(
+                    "Error fetching products:",
+                    err
+                );
+
+                if (isMounted) {
+                    setError(
+                        err.response?.data?.message ||
+                        "Ocurrió un error al cargar los productos."
+                    );
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadProducts();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const resetForm = () => {
@@ -111,6 +123,7 @@ export default function Products() {
                             : product
                     )
                 );
+
             } else {
                 const response = await api.post(
                     "/products",
@@ -118,7 +131,7 @@ export default function Products() {
                 );
 
                 setProducts((prevProducts) => [
-                    response.data.product,
+                    response.data,
                     ...prevProducts,
                 ]);
             }
@@ -342,9 +355,9 @@ export default function Products() {
                     </p>
                 ) : (
                     <div className="products-list">
-                        {products.map((product) => (
+                        {products.map((product, index) => (
                             <article
-                                key={product._id}
+                                key={`product-${product._id || index}`}
                                 className="admin-product-card"
                             >
                                 <div className="admin-product-info">
