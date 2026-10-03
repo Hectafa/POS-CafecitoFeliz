@@ -77,8 +77,8 @@ const App = () => {
         </button>
       </nav>
 
-      {currentPage === "ventas" && <Home />}
-      {currentPage === "cliente" && <Clients />}
+      {currentPage === "ventas" && <Home user={user}/>}
+      {currentPage === "clientes" && <Clients />}
       {currentPage === "productos" && <Products />}
     </div>
   );
