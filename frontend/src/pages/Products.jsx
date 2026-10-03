@@ -355,9 +355,9 @@ export default function Products() {
                     </p>
                 ) : (
                     <div className="products-list">
-                        {products.map((product, index) => (
+                        {products.map((product) => (
                             <article
-                                key={`product-${product._id || index}`}
+                                key={product._id}
                                 className="admin-product-card"
                             >
                                 <div className="admin-product-info">
