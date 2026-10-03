@@ -50,7 +50,7 @@ export const deleteClient = async (req, res) => {
         const client = await clientService.deleteClient(id);
 
         if (!client) {
-            return res.status(404).jsno({
+            return res.status(404).json({
                 message: 'Cliente no encontrado',
             });
         }
